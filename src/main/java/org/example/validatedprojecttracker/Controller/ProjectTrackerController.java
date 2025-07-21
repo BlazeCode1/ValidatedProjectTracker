@@ -80,21 +80,24 @@ public class ProjectTrackerController {
         if(projects.isEmpty())
             return ResponseEntity.badRequest().body(new ApiResponse("Project List Is Empty"));
 
+        String projectStatus = status.trim().toLowerCase();
+
         for (Project p : projects){
             if(p.getID().equals(ID)){
                 if(p.getStatus().equalsIgnoreCase("Completed"))
                     return ResponseEntity.badRequest().body(new ApiResponse("Project Already Completed."));
-                if (status.equalsIgnoreCase("Completed")) {
-                    p.setStatus(status);
-                    return ResponseEntity.ok(new ApiResponse("Changed Status To 'Completed'"));
-                }
-                if (status.equalsIgnoreCase("in Progress")) {
-                    p.setStatus(status);
-                    return ResponseEntity.ok(new ApiResponse("Changed Status To 'in Progress'"));
-                }
-                if(status.equalsIgnoreCase("Not Started")){
-                    p.setStatus(status);
-                     return ResponseEntity.ok(new ApiResponse("Changed Status To '"+status+"'"));
+                switch (projectStatus) {
+                    case "completed":
+                        p.setStatus("Completed");
+                        return ResponseEntity.ok(new ApiResponse("Changed Status To 'Completed'"));
+                    case "in progress":
+                        p.setStatus("in Progress");
+                        return ResponseEntity.ok(new ApiResponse("Changed Status To 'in Progress'"));
+                    case "not started":
+                        p.setStatus("Not Started");
+                        return ResponseEntity.ok(new ApiResponse("Changed Status To 'Not Started'"));
+                    default:
+                        return ResponseEntity.badRequest().body(new ApiResponse("Invalid status."));
                 }
             }
         }
