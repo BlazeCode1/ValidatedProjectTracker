@@ -40,7 +40,7 @@ public class ProjectTrackerController {
 
 
     @PutMapping("/update/{index}")
-    public ResponseEntity<?> updateProject(@PathVariable int index,@RequestBody Project project ,Errors err){
+    public ResponseEntity<?> updateProject(@PathVariable int index,@Valid @RequestBody Project project ,Errors err){
         if(projects.isEmpty()){
             return ResponseEntity.badRequest().body(new ApiResponse("Project List Is Empty"));
         }
@@ -85,16 +85,16 @@ public class ProjectTrackerController {
                 if(p.getStatus().equalsIgnoreCase("Completed"))
                     return ResponseEntity.badRequest().body(new ApiResponse("Project Already Completed."));
                 if (status.equalsIgnoreCase("Completed")) {
-                    p.setStatus("Completed");
+                    p.setStatus(status);
                     return ResponseEntity.ok(new ApiResponse("Changed Status To 'Completed'"));
                 }
                 if (status.equalsIgnoreCase("in Progress")) {
-                    p.setStatus("in Progress");
+                    p.setStatus(status);
                     return ResponseEntity.ok(new ApiResponse("Changed Status To 'in Progress'"));
                 }
                 if(status.equalsIgnoreCase("Not Started")){
-                    p.setStatus("Not Started");
-                     return ResponseEntity.ok(new ApiResponse("Changed Status To 'Not Started'"));
+                    p.setStatus(status);
+                     return ResponseEntity.ok(new ApiResponse("Changed Status To '"+status+"'"));
                 }
             }
         }
