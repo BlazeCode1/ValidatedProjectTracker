@@ -12,7 +12,7 @@ import lombok.Data;
 @AllArgsConstructor
 public class Project {
     @NotEmpty(message = "ID cannot be empty")
-    @Size(min = 2, message = "Id length Should be at most 2")
+    @Size(min = 2, message = "Id length Should be at least 2")
     private String ID;
 
 
